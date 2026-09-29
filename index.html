@@ -3,12 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>@will.</title>
-  <meta name="description" content="hello twin" />
+  <title>will. — web developer</title>
+  <meta name="description" content="Will — web developer building client websites, automation pipelines and data tools in Python, C and JavaScript. Partnered with Mogul Strategy." />
   <meta name="theme-color" content="#194c4c" />
   <meta property="og:title" content="@will." />
-  <meta property="og:description" content="hello twin" />
-  <meta property="og:image" content="assets/github-avatar.jpg" />
+  <meta property="og:description" content="Will — web developer building client websites, automation pipelines and data tools in Python, C and JavaScript. Partnered with Mogul Strategy." />
+  <meta property="og:url" content="https://will6z.github.io/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://will6z.github.io/assets/github-avatar.jpg" />
   <link rel="icon" href="assets/github-avatar.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -105,7 +107,8 @@
       min-height: 100vh; min-height: 100svh;
       display: grid; place-items: center;
       grid-template-columns: minmax(0, 1fr);
-      padding: 16px;
+      /* bottom padding keeps the card clear of the scroll hint */
+      padding: 16px 16px 76px;
       perspective: 1000px;
       position: relative;
     }
@@ -286,6 +289,13 @@
     }
     .tip.on { opacity: 1; }
     .tagline { margin-top: 4px; font-size: .78rem; letter-spacing: .06em; opacity: .8; text-shadow: 0 0 8px var(--accent); }
+    .about {
+      margin: 14px auto 0; max-width: 460px;
+      font-size: .8rem; line-height: 1.6; opacity: .92;
+      text-shadow: 0 1px 2px rgba(0,0,0,.6);
+    }
+    .about a { color: #7fe0e0; text-decoration: none; border-bottom: 1px solid rgba(127,224,224,.4); }
+    .about a:hover { border-bottom-color: #7fe0e0; }
     .bio { margin-top: 6px; font-size: 1rem; font-weight: 500; text-shadow: 0 0 10px var(--accent), 0 1px 2px rgba(0,0,0,.5); }
 
     /* discord presence */
@@ -327,21 +337,37 @@
     }
     .social:hover { transform: translateY(-3px) scale(1.08); background: #7fe0e0; }
 
-    /* audio player */
+    /* audio player — a little deck: live spectrum, segmented seek bar, track counter */
     .player {
-      margin: 20px auto 0; max-width: 420px; padding: 12px 14px;
-      border-radius: 14px;
-      background: rgba(4, 18, 18, .78);
-      border: 1px solid rgba(25, 76, 76, .45);
-      text-align: left;
+      margin: 20px auto 0; max-width: 420px; padding: 12px 14px 10px;
+      border-radius: 14px; text-align: left; position: relative; overflow: hidden;
+      background: linear-gradient(180deg, rgba(8, 30, 30, .82), rgba(3, 12, 12, .88));
+      border: 1px solid rgba(63, 182, 182, .35);
+      box-shadow: inset 0 0 24px rgba(25, 76, 76, .35), 0 0 18px rgba(0, 0, 0, .35);
     }
-    .player .title { font-size: .85rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .player .bar-row { display: flex; align-items: center; gap: 8px; font-size: .7rem; margin-top: 8px; }
-    .bar { flex: 1; height: 4px; border-radius: 4px; background: rgba(223, 243, 243, .2); cursor: pointer; position: relative; }
-    .bar i { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; transform: scaleX(0); transform-origin: left; border-radius: 4px; background: var(--text); box-shadow: 0 0 6px var(--glow); }
-    .controls { display: flex; justify-content: center; gap: 18px; margin-top: 8px; }
-    .controls button { width: 26px; height: 26px; display: grid; place-items: center; }
-    .controls svg { width: 20px; height: 20px; fill: var(--text); }
+    .player::before { /* scanlines to match the crt background */
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: repeating-linear-gradient(180deg, rgba(255,255,255,.025) 0 1px, transparent 1px 3px);
+    }
+    .player .head { display: flex; align-items: center; gap: 8px; font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: #8fb3b3; }
+    .player .head .live { width: 6px; height: 6px; border-radius: 50%; background: #3a4a4a; transition: background .3s, box-shadow .3s; }
+    .player.playing .head .live { background: #23e5a0; box-shadow: 0 0 8px #23e5a0; }
+    .player .head .no { margin-left: auto; color: #5fd3c2; }
+    .player .title { margin-top: 6px; font-size: .88rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 0 8px var(--accent); }
+    .player .title .by { color: #8fb3b3; font-weight: 400; }
+    .player canvas { display: block; width: 100%; height: 38px; margin-top: 8px; }
+    .player .bar-row { display: flex; align-items: center; gap: 8px; font-size: .68rem; margin-top: 6px; color: #b7d6d6; font-variant-numeric: tabular-nums; }
+    .bar { flex: 1; height: 8px; cursor: pointer; position: relative;
+      background: repeating-linear-gradient(90deg, rgba(223,243,243,.16) 0 4px, transparent 4px 6px); }
+    .bar i { position: absolute; inset: 0; transform: scaleX(0); transform-origin: left;
+      background: repeating-linear-gradient(90deg, #7fe0e0 0 4px, transparent 4px 6px);
+      filter: drop-shadow(0 0 4px var(--glow)); }
+    .controls { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 8px; }
+    .controls button { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 8px; transition: background .2s, transform .15s; }
+    .controls button:hover { background: rgba(127, 224, 224, .12); }
+    .controls button:active { transform: scale(.92); }
+    .controls #play { width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(127, 224, 224, .5); box-shadow: 0 0 10px rgba(63, 182, 182, .35); }
+    .controls svg { width: 18px; height: 18px; fill: var(--text); }
 
     /* spotify second tab */
     .tabs { display: flex; justify-content: center; gap: 8px; margin-top: 18px; }
@@ -421,14 +447,22 @@
           <h1 class="glitch" data-text="will.">will.</h1>
           <div class="badges">
             <span class="badge" data-label="bot builder" style="--src:url('assets/bot.svg')"></span>
-            <span class="badge" data-label="trader" style="--src:url('assets/chart.svg')"></span>
+            <span class="badge" data-label="web dev" style="--src:url('assets/web.svg')"></span>
+            <span class="badge" data-label="data tools" style="--src:url('assets/chart.svg')"></span>
             <span class="badge" data-label="automation" style="--src:url('assets/terminal.svg')"></span>
             <span class="badge" data-label="C programmer" style="--src:url('assets/c.svg')"></span>
             <span class="badge" data-label="HypeSquad Bravery" style="--src:url('assets/hypesquad-bravery.png')"></span>
           </div>
         </div>
-        <p class="bio">hello twin</p>
-        <p class="tagline">bots • automation • trading</p>
+        <p class="bio">web developer &amp; automation engineer</p>
+        <p class="tagline">web dev • automation • data tools</p>
+        <p class="about">
+          I'm Will — I design and build websites for clients, from the landing page to the
+          lead-capture pipeline behind it (CRM, Zapier, Netlify). I also write Python and C++
+          tools that collect and analyze market data, and I built a UNIX shell from scratch in C.
+          Currently partnered with <a href="https://mogulstrategy.com" target="_blank" rel="noopener">Mogul Strategy</a>,
+          building and shipping sites for their clients.
+        </p>
 
         <div class="presence" id="presence">
           <div class="pfp" data-label="offline" id="pfp">
@@ -452,16 +486,18 @@
           <a class="social" data-label="Instagram" href="https://instagram.com/will6z" target="_blank" rel="noopener" aria-label="Instagram" style="--src:url('assets/instagram.svg')"></a>
         </div>
 
-        <div class="player">
-          <div class="title" id="trackTitle">fakemink - ragebait</div>
+        <div class="player" id="player">
+          <div class="head"><span class="live"></span><span id="pState">paused</span><span class="no" id="trackNo">01 / 02</span></div>
+          <div class="title" id="trackTitle">ragebait <span class="by">— fakemink</span></div>
+          <canvas id="viz" aria-hidden="true"></canvas>
           <div class="bar-row">
             <span id="cur">0:00</span>
-            <div class="bar" id="bar"><i id="fill"></i></div>
+            <div class="bar" id="bar" role="slider" aria-label="Seek"><i id="fill"></i></div>
             <span id="dur">1:58</span>
           </div>
           <div class="controls">
             <button id="prev" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg></button>
-            <button id="play" aria-label="Play/Pause"><svg viewBox="0 0 24 24" id="playIcon"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg></button>
+            <button id="play" aria-label="Play/Pause"><svg viewBox="0 0 24 24" id="playIcon"><path d="M7 5v14l11-7z"/></svg></button>
             <button id="next" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z"/></svg></button>
           </div>
         </div>
@@ -533,9 +569,14 @@
     function load(i, autoplay = true) {
       ti = (i + tracks.length) % tracks.length;
       audio.src = tracks[ti].src;
-      $("#trackTitle").textContent = tracks[ti].title;
+      showTrack();
       syncEmbed();
       if (autoplay) audio.play().catch(() => {});
+    }
+    function showTrack() {
+      const [artist, song] = tracks[ti].title.split(" - ");
+      $("#trackTitle").innerHTML = `${esc(song)} <span class="by">— ${esc(artist)}</span>`;
+      $("#trackNo").textContent = `${String(ti + 1).padStart(2, "0")} / ${String(tracks.length).padStart(2, "0")}`;
     }
     // the spotify tab always shows whichever song the player is on
     const embedUrl = () => `https://open.spotify.com/embed/track/${tracks[ti].spotify}?utm_source=generator&theme=0`;
@@ -551,8 +592,51 @@
     });
     audio.addEventListener("loadedmetadata", () => ($("#dur").textContent = fmt(audio.duration)));
     audio.addEventListener("ended", () => load(ti + 1));
-    audio.addEventListener("play", () => ($("#playIcon").innerHTML = PAUSE));
-    audio.addEventListener("pause", () => ($("#playIcon").innerHTML = PLAY));
+    const setState = (on) => {
+      $("#playIcon").innerHTML = on ? PAUSE : PLAY;
+      $("#player").classList.toggle("playing", on);
+      $("#pState").textContent = on ? "now playing" : "paused";
+    };
+    audio.addEventListener("play", () => setState(true));
+    audio.addEventListener("pause", () => setState(false));
+
+    /* ---------- spectrum visualizer ---------- */
+    // web audio needs a user gesture, so it's wired up on enter (same moment the music starts)
+    let analyser = null, freq = null;
+    function initViz() {
+      if (analyser) return;
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const srcNode = ctx.createMediaElementSource(audio);
+        analyser = ctx.createAnalyser();
+        analyser.fftSize = 128;
+        analyser.smoothingTimeConstant = 0.8;
+        srcNode.connect(analyser).connect(ctx.destination);
+        freq = new Uint8Array(analyser.frequencyBinCount);
+        audio.addEventListener("play", () => ctx.resume());
+        ctx.resume();
+      } catch { analyser = null; }
+      requestAnimationFrame(drawViz);
+    }
+    const viz = $("#viz"), vctx = viz.getContext("2d");
+    const quiet = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    function drawViz(t) {
+      const dpr = devicePixelRatio || 1, w = viz.clientWidth, h = viz.clientHeight;
+      if (viz.width !== w * dpr) { viz.width = w * dpr; viz.height = h * dpr; }
+      vctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      vctx.clearRect(0, 0, w, h);
+      const n = 36, gap = 3, bw = (w - gap * (n - 1)) / n;
+      if (analyser) analyser.getByteFrequencyData(freq);
+      for (let i = 0; i < n; i++) {
+        // skip the top of the spectrum, it's mostly empty
+        let v = analyser && !audio.paused ? freq[Math.floor(i * freq.length * 0.7 / n)] / 255 : 0;
+        if (!v) v = 0.06 + (quiet ? 0 : 0.04 * Math.sin(t / 600 + i / 2)); // idle ripple
+        const bh = Math.max(2, v * h);
+        vctx.fillStyle = `rgba(127, 224, 224, ${0.35 + v * 0.65})`;
+        vctx.fillRect(i * (bw + gap), h - bh, bw, bh);
+      }
+      requestAnimationFrame(drawViz);
+    }
     $("#play").onclick = () => (audio.paused ? audio.play() : audio.pause());
     $("#prev").onclick = () => (audio.currentTime > 3 ? (audio.currentTime = 0) : load(ti - 1));
     $("#next").onclick = () => load(ti + 1);
@@ -578,6 +662,7 @@
       $("#card").classList.add("show");
       $("#volume").classList.add("show");
       $("#bg").play().catch(() => {});
+      initViz();
       audio.play().catch(() => {});
     }
     $("#enter").addEventListener("click", enter);
@@ -598,11 +683,13 @@
         ["dim", "copyright (c) xfqh. all rights reserved."],
         ["", ""],
         ["task", "mounting /home/will"],
-        ["task", "loading smart-money-trader — 8 bots"],
+        ["task", "loading smart-money-trader — 8 modules"],
+        ["task", "deploying client sites — mogul strategy"],
         ["task", "starting automation daemons"],
         ["task", "syncing github: will6z — 4 projects"],
         ["task", "connecting discord presence: xfqh"],
         ["task", "buffering audio: fakemink - ragebait"],
+        ["task", "tuning spectrum analyser"],
         ["", ""],
         ["jp", "ようこそ見知らぬ人"],
         ["key", touch ? "tap to enter_" : "press any key to enter_"],
@@ -704,7 +791,7 @@
     const LANG_COLORS = { Python: "#3572A5", "C++": "#f34b7d", C: "#555555", JavaScript: "#f1e05a", TypeScript: "#3178c6", HTML: "#e34c26", CSS: "#563d7c", Shell: "#89e051" };
     const PROJECTS = [
       { repo: "smart-money-trader", featured: true, langs: ["Python", "C++"],
-        desc: "Polymarket trading bots — scans the leaderboard for profitable wallets and copy-trades them, plus arbitrage, neg-risk and resolution strategies." },
+        desc: "Python + C++ toolkit for prediction-market data — scores wallets on historical performance, watches order books, and runs automated strategies behind one dashboard." },
       { repo: "UpdatedWebsite", langs: ["JavaScript", "HTML", "CSS"],
         desc: "Client website with a lead-capture pipeline wired into GoHighLevel and Zapier automations, deployed on Netlify." },
       { repo: "will6z.github.io", langs: ["HTML", "JavaScript", "CSS"],
@@ -726,10 +813,9 @@
     const README = [
       ["h", "# william"],
       ["", ""],
-      ["", "bots • automation • trading"],
+      ["", "web dev • automation • data tools"],
       ["", ""],
-      ["", "live trades: ", ["https://polymarket.com/@vvsvalentine"]],
-      ["", "", ["https://mogulstrategy.com/"]],
+      ["", "building client websites — partnered with ", ["https://mogulstrategy.com/", "mogul strategy"]],
       ["", ""],
       ["k", "contact:"],
       ["", "ig: ", ["https://instagram.com/will6z", "@will6z"]],
@@ -839,7 +925,8 @@
           ["open [path]", "open the current repo/file on github"],
           ["tree", "show the folders two levels deep"],
           ["neofetch", "system info, with my pfp in ascii"],
-          ["bots", "what each of my polymarket bots does"],
+          ["bots", "the automation tools in smart-money-trader"],
+          ["contact", "how to reach me"],
           ["play · pause · next · np", "control the music"],
           ["pwd · whoami · clear · history", ""],
         ].forEach(([c, d]) => print(`  <span class="p">${esc(c.padEnd(26))}</span><span class="dim">${esc(d)}</span>`));
@@ -907,7 +994,7 @@
         }
       },
       pwd() { print("/home/will" + (sh.cwd.length ? "/" + esc(sh.cwd.join("/")) : "")); },
-      whoami() { print("will — bots • automation • trading"); },
+      whoami() { print("will — web developer · automation · data tools"); },
       history() { sh.history.forEach((h, i) => print(`<span class="dim">${String(i + 1).padStart(4)}</span>  ${esc(h)}`)); },
       clear() { termOut.innerHTML = ""; },
       echo(args) { print(esc(args.join(" "))); },
@@ -924,10 +1011,11 @@
         kv("OS", "will.os 2.6 (github pages)"),
         kv("Host", esc(location.host || "localhost")),
         kv("Shell", "zsh (in-browser)"),
-        kv("Focus", "bots • automation • trading"),
+        kv("Focus", "web dev • automation • data tools"),
         kv("Langs", "Python · C · C++ · JavaScript"),
         kv("Projects", `${PROJECTS.length} <span class="dim">(ls ~)</span>`),
-        kv("Bots", `${BOTS.length} <span class="dim">(bots)</span>`),
+        kv("Tools", `${BOTS.length} <span class="dim">(bots)</span>`),
+        kv("Partner", "mogul strategy"),
         kv("Music", `${esc(tracks[ti].title)} <span class="dim">(${audio.paused ? "paused" : "playing"})</span>`),
         kv("Discord", "xfqh"),
         kv("Uptime", `${Math.floor(up / 60)}m ${up % 60}s`),
@@ -961,17 +1049,17 @@
     ];
 
     const BOTS = [
-      ["smart_money_scanner", "scores polymarket wallets for real edge — early entries, cheap buys that resolve to $1, wins across different markets"],
-      ["smart_copy_bot", "copies a trade when 2+ smart wallets enter the same market (consensus), or mirrors the top wallet solo"],
-      ["strategy_resolution", "resolution sniping — buys near-certain outcomes still priced under $1 and collects at settlement"],
-      ["strategy_arbitrage", "cross-platform arb — trades when polymarket drifts from sharp sportsbook odds"],
-      ["strategy_negrisk", "neg-risk scanner — buys every outcome when a multi-outcome market sums to less than $1"],
-      ["sports_scanner", "finds active traders on sports markets"],
+      ["smart_money_scanner", "scores public wallets on historical performance — entry timing, pricing and consistency across markets"],
+      ["smart_copy_bot", "consensus signal — flags a market when several high-scoring wallets agree on it"],
+      ["strategy_resolution", "resolution tracker — finds near-certain outcomes that are still priced under $1"],
+      ["strategy_arbitrage", "price comparison — spots when prediction-market prices drift from sportsbook odds"],
+      ["strategy_negrisk", "pricing checker — finds multi-outcome markets whose outcomes sum to less than $1"],
+      ["sports_scanner", "collects activity data from sports markets"],
       ["market_monitor", "read-only watcher on the crypto 5-minute up/down books — logs how often cheap fills show up"],
       ["multi_bot", "orchestrator — runs the strategies in parallel behind one dashboard"],
     ];
     COMMANDS.bots = () => {
-      print(`<span class="k">~/smart-money-trader</span> <span class="dim">— ${BOTS.length} bots, python + c++</span>`);
+      print(`<span class="k">~/smart-money-trader</span> <span class="dim">— ${BOTS.length} data &amp; automation modules, python + c++</span>`);
       BOTS.forEach(([name, desc]) => print(`<span class="ok-dot">●</span> <span class="file" data-cmd="cat ~/smart-money-trader/${name}.py">${name}.py</span>\n  <span class="dim">${esc(desc)}</span>`));
       print('<span class="dim">click one to read the source, or: cd ~/smart-money-trader</span>');
     };
@@ -980,6 +1068,16 @@
     COMMANDS.next = () => { load(ti + 1); print(`<span class="dim">⏭</span> ${esc(tracks[ti].title)}`); };
     COMMANDS.prev = () => { load(ti - 1); print(`<span class="dim">⏮</span> ${esc(tracks[ti].title)}`); };
     COMMANDS.np = () => print(`${audio.paused ? "⏸" : "▶"} ${esc(tracks[ti].title)} <span class="dim">${fmt(audio.currentTime)} / ${fmt(audio.duration)}</span>`);
+    COMMANDS.contact = () => {
+      print('<span class="k">contact</span>');
+      [
+        ["github", "https://github.com/will6z", "github.com/will6z"],
+        ["instagram", "https://instagram.com/will6z", "@will6z"],
+        ["discord", null, "xfqh"],
+        ["partner", "https://mogulstrategy.com", "mogulstrategy.com"],
+      ].forEach(([k, url, label]) => print(`  <span class="p">${k.padEnd(10)}</span>${url ? `<a href="${url}" target="_blank" rel="noopener">${esc(label)}</a>` : esc(label)}`));
+    };
+    COMMANDS.email = COMMANDS.contact;
     COMMANDS.skip = COMMANDS.next;
     COMMANDS.fetch = COMMANDS.neofetch;
     COMMANDS.projects = async () => { sh.cwd = []; await COMMANDS.ls([]); };
